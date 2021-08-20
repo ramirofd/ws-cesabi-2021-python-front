@@ -2,14 +2,13 @@ import React from 'react';
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import { createTheme, makeStyles } from "@material-ui/core/styles";
-import {
-  Tab,
-  Tabs,
-  ThemeProvider,
-} from "@material-ui/core";
+import Tab from "@material-ui/core/Tab";
+import Tabs from "@material-ui/core/Tabs";
+
+import { createTheme, makeStyles, ThemeProvider } from "@material-ui/core/styles";
 
 import "./App.css";
+import TabPanel from './TabPanel';
 
 const theme = createTheme({
   palette: {
@@ -31,15 +30,7 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: "120px",
   },
   appBar: {
-    textAlign: "center",
-  },
-  fabStyle: {
-    margin: theme.spacing(1),
-    top: "auto",
-    right: 20,
-    bottom: 20,
-    left: "auto",
-    position: "fixed",
+    alignItems: "center",
   },
   extendedIcon: {
     marginRight: theme.spacing(1),
@@ -54,19 +45,19 @@ function a11yProps(index) {
 }
 
 function App() {
-  const classes = useStyles();
-    const [value, setValue] = React.useState(0);
+  const classes = useStyles(theme);
+  const [value, setValue] = React.useState(0);
+  const handleChange = (event, newValue) => {
+      setValue(newValue);
+  };
 
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
-        <AppBar position="fixed">
-          <Toolbar variant="regular" className={classes.appBar}>
-            <Typography variant="h6">
-              
+        <AppBar position="static" className={classes.appBar}>
+          <Toolbar variant="regular">
+            <Typography variant="h6" >
+              I Jornadas de Bioingeniería del CESABI
             </Typography>
           </Toolbar>
           <Tabs
@@ -76,10 +67,22 @@ function App() {
             scrollButtons="on"
           >
             {/* Add new tabs here ----------------------------------------------- NEW PROJECTS TABS */}
-            <Tab label="empty" {...a11yProps(0)} />
+            <Tab label="Variables y Funciones" {...a11yProps(0)} />
+            <Tab label="Listas y Diccionarios" {...a11yProps(0)} />
+            <Tab label="Clases" {...a11yProps(0)} />
           </Tabs>
         </AppBar>
+        <TabPanel value={value} index={0} >
+          Item One
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          Item Two
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          Item Three
+        </TabPanel>
       </ThemeProvider>
+      
     </div>
   );
 }
